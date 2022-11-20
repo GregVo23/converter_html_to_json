@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Converter</title>
+  </head>
+  <body>
+    <main>
+      <div class="overflow-hidden bg-gray-100 py-2">
+        <div class="relative mx-auto">
+          <img
+            src="https://lh4.googleusercontent.com/-yy1kClJs2yA/AAAAAAAAAAI/AAAAAAAAAAA/zqU1-wrGrys/s44-p-k-no-ns-nd/photo.jpg"
+            class="mx-auto"
+          />
+          <h1 class="pt-6 pb-2 text-3xl font-bold text-center">
+            Convertisseur HTML - JSON
+          </h1>
+          <section class="text-center mt-4">
+            <button
+              id="converter_to_json"
+              class="inline-flex items-center rounded border border-transparent bg-pink-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-pink-700"
+            >
+              Convertir HTML > JSON
+            </button>
+            <button
+              id="converter_to_html"
+              class="inline-flex items-center rounded border border-transparent bg-cyan-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-cyan-700"
+            >
+              Convertir JSON > HTML
+            </button>
+            <button
+              id="clear_value"
+              class="inline-flex items-center rounded border border-transparent bg-gray-400 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-gray-500"
+            >
+              Effacer
+            </button>
+            <p id="message" class="mt-2">
+              Insérer votre texte afin de convertir
+            </p>
+          </section>
+          <section class="text-center mt-4">
+            <textarea
+              id="input"
+              placeholder="Insérer votre texte"
+              rows="40"
+              cols="50"
+              class="inline-flex w-2/5 rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            ></textarea>
+            <textarea
+              id="output"
+              placeholder="Récupérer la conversion"
+              rows="40"
+              cols="50"
+              class="inline-flex w-2/5 rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            ></textarea>
+          </section>
+        </div>
+      </div>
+    </main>
+    <script text="javascript">
+      let input = document.getElementById("input").value;
+      let output = document.getElementById("output").value;
+      let converterToJson = document.getElementById("converter_to_json");
+      let converterToHtml = document.getElementById("converter_to_html");
+      let clearValue = document.getElementById("clear_value");
+      let msgError = "mt-2 animate-pulse text-red-600";
+      let msgSuccess = "mt-2 animate-pulse text-green-600";
+
+      function resetMessage() {
+        document.getElementById("message").innerHTML =
+          "Insérer votre texte afin de convertir";
+        document.getElementById("message").className = "mt-2";
+      }
+
+      function stopRestMessage() {
+        clearTimeout(myTimeout);
+      }
+
+      const isJson = (str) => {
+        try {
+          JSON.parse(str);
+        } catch (e) {
+          return false;
+        }
+        return true;
+      };
+
+      function isHtml(str) {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(str, "application/xml");
+        let errorNode = doc.querySelector("parsererror");
+        if (errorNode) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      converterToJson.addEventListener("click", function () {
+        if (
+          document.getElementById("input").value !== null &&
+          document.getElementById("input").value !== undefined &&
+          document.getElementById("input").value !== "" &&
+          isHtml(document.getElementById("input").value)
+        ) {
+          document.getElementById("message").innerHTML =
+            "Conversion faite en JSON !";
+          document.getElementById("output").value = JSON.stringify(
+            document.getElementById("input").value
+          )
+            .replace(/  /g, "")
+            .replace(/\/\/\//, "/");
+          document.getElementById("message").className = msgSuccess;
+          const myTimeout = setTimeout(resetMessage, 3000);
+        } else {
+          document.getElementById("message").innerHTML =
+            "Veuillez insérer un code HTML valide !";
+          const myTimeout = setTimeout(resetMessage, 3000);
+          document.getElementById("message").className = msgError;
+        }
+      });
+
+      converterToHtml.addEventListener("click", function () {
+        if (
+          document.getElementById("input").value !== null &&
+          document.getElementById("input").value !== undefined &&
+          document.getElementById("input").value !== "" &&
+          isJson(document.getElementById("input").value)
+        ) {
+          document.getElementById("message").innerHTML =
+            "Conversion faite en HTML !";
+          document.getElementById("output").value = JSON.parse(
+            document.getElementById("input").value
+          );
+          document.getElementById("message").className = msgSuccess;
+          const myTimeout = setTimeout(resetMessage, 3000);
+        } else {
+          document.getElementById("message").innerHTML =
+            "Veuillez insérer un code JSON valide !";
+          const myTimeout = setTimeout(resetMessage, 3000);
+          document.getElementById("message").className = msgError;
+        }
+      });
+
+      clearValue.addEventListener("click", function () {
+        document.getElementById("message").innerHTML =
+          "Insérer votre texte afin de convertir";
+        document.getElementById("output").value = "";
+        document.getElementById("input").value = "";
+        const myTimeout = setTimeout(resetMessage, 2000);
+      });
+    </script>
+  </body>
+</html>
