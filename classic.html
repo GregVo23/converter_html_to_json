@@ -34,7 +34,18 @@
           </h1>
 
           <section class="text-center mt-4">
-
+            <button
+              id="converter_to_json"
+              class="inline-flex items-center rounded border border-transparent bg-pink-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-pink-700"
+            >
+              Convertir HTML > JSON
+            </button>
+            <button
+              id="converter_to_html"
+              class="inline-flex items-center rounded border border-transparent bg-cyan-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-cyan-700"
+            >
+              Convertir JSON > HTML
+            </button>
             <button
               id="clear_value"
               class="inline-flex items-center rounded border border-transparent bg-gray-400 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-gray-500"
@@ -45,7 +56,7 @@
             id="send_content"
             class="inline-flex items-center rounded border border-transparent bg-green-400 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-green-500"
           >
-            CONVERSION
+            GO
           </button>
             <p id="message" class="mt-2">
               Insérer votre texte afin de convertir
@@ -57,56 +68,33 @@
             </form>
           </section>
           <section class="grid grid-cols-2 mt-2">
-            <div class="m-2">
-            <h2 class="inline-flex">HTML CODE</h2>
-            <button
-            id="converter_to_json"
-            class="inline-flex items-center rounded border border-transparent bg-pink-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-pink-700"
-          >
-            Convertir HTML > JSON
-          </button>
-              <textarea
-                id="input"
-                placeholder="Insérer votre code"
-                rows="20"
-
-                class="w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              ></textarea>
-            </div>
-            <div class="m-2">
-              <h2 class="inline-flex">JSON CODE</h2>
-              <button
-              id="converter_to_html"
-              class="inline-flex items-center rounded border border-transparent bg-cyan-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-cyan-700"
-            >
-              Convertir JSON > HTML
-            </button>
-              <textarea
-                id="output"
-                placeholder="Récupérer la conversion"
-                rows="20"
- 
-                class="w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              ></textarea>
-            </div>
+            <textarea
+              id="input"
+              placeholder="Insérer votre code"
+              rows="20"
+              cols="50"
+              class="rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 m-2"
+            ></textarea>
+            <textarea
+              id="output"
+              placeholder="Récupérer la conversion"
+              rows="20"
+              cols="50"
+              class="rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 m-2"
+            ></textarea>
           </section>
         </div>
       </div>
     </main>
     <script text="javascript">
-
-      // VARIABLES
-
       let input = document.getElementById("input").value;
       let output = document.getElementById("output").value;
-      let converterToJsonBtn = document.getElementById("converter_to_json");
-      let converterToHtmlBtn = document.getElementById("converter_to_html");
-      let clearValueBtn = document.getElementById("clear_value");
-      let sendContentBtn = document.getElementById("send_content");
+      let converterToJson = document.getElementById("converter_to_json");
+      let converterToHtml = document.getElementById("converter_to_html");
+      let clearValue = document.getElementById("clear_value");
+      let sendContent = document.getElementById("send_content");
       let msgError = "mt-2 animate-pulse text-red-600";
       let msgSuccess = "mt-2 animate-pulse text-green-600";
-
-      // FUNCTIONS
 
       function resetMessage() {
         document.getElementById("message").innerHTML =
@@ -138,7 +126,15 @@
         }
       }
 
-      function converterToJson() {
+      function contentSenderToInput() {
+        document.getElementById("input").value = tinymce.get("mytextarea").getContent();
+      }
+
+      sendContent.addEventListener("click", function() {
+        contentSenderToInput()
+      });
+
+      converterToJson.addEventListener("click", function () {
         if (
           document.getElementById("input").value !== null &&
           document.getElementById("input").value !== undefined &&
@@ -160,9 +156,9 @@
           const myTimeout = setTimeout(resetMessage, 3000);
           document.getElementById("message").className = msgError;
         }
-      }
+      });
 
-      function converterToHtml() {
+      converterToHtml.addEventListener("click", function () {
         if (
           document.getElementById("input").value !== null &&
           document.getElementById("input").value !== undefined &&
@@ -182,32 +178,9 @@
           const myTimeout = setTimeout(resetMessage, 3000);
           document.getElementById("message").className = msgError;
         }
-      }
-
-      function contentSenderToInput() {
-        document.getElementById("input").value = tinymce.get("mytextarea").getContent();
-      }
-
-      async function fullConversion() {
-        let result = await contentSenderToInput();
-        converterToJson()
-      }
-
-      // EVENTS
-
-      sendContentBtn.addEventListener("click", function() {
-        fullConversion()
       });
 
-      converterToJsonBtn.addEventListener("click", function () {
-        converterToJson()
-      });
-
-      converterToHtmlBtn.addEventListener("click", function () {
-        converterToHtml()
-      });
-
-      clearValueBtn.addEventListener("click", function () {
+      clearValue.addEventListener("click", function () {
         document.getElementById("message").innerHTML =
           "Insérer votre texte afin de convertir";
         document.getElementById("output").value = "";
