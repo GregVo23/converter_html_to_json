@@ -52,6 +52,12 @@
             >
               Effacer
             </button>
+            <button
+            id="send_content"
+            class="inline-flex items-center rounded border border-transparent bg-green-400 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-green-500"
+          >
+            GO
+          </button>
             <p id="message" class="mt-2">
               Insérer votre texte afin de convertir
             </p>
@@ -86,6 +92,7 @@
       let converterToJson = document.getElementById("converter_to_json");
       let converterToHtml = document.getElementById("converter_to_html");
       let clearValue = document.getElementById("clear_value");
+      let sendContent = document.getElementById("send_content");
       let msgError = "mt-2 animate-pulse text-red-600";
       let msgSuccess = "mt-2 animate-pulse text-green-600";
 
@@ -118,6 +125,14 @@
           return true;
         }
       }
+
+      function contentSenderToInput() {
+        document.getElementById("input").value = tinymce.get("mytextarea").getContent();
+      }
+
+      sendContent.addEventListener("click", function() {
+        contentSenderToInput()
+      });
 
       converterToJson.addEventListener("click", function () {
         if (
