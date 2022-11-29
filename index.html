@@ -6,18 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Converter</title>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script
+      src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
     <script>
       tinymce.init({
-        selector: '#mytextarea',
+        selector: "#mytextarea",
         plugins: [
-          'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
-          'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-          'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+          "a11ychecker",
+          "advlist",
+          "advcode",
+          "advtable",
+          "autolink",
+          "checklist",
+          "export",
+          "lists",
+          "link",
+          "image",
+          "charmap",
+          "preview",
+          "anchor",
+          "searchreplace",
+          "visualblocks",
+          "powerpaste",
+          "fullscreen",
+          "formatpainter",
+          "insertdatetime",
+          "media",
+          "table",
+          "help",
+          "wordcount",
         ],
-        toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
-          'alignleft aligncenter alignright alignjustify | ' +
-          'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+        toolbar:
+          "undo redo | formatpainter casechange blocks | bold italic backcolor | " +
+          "alignleft aligncenter alignright alignjustify | " +
+          "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help",
       });
     </script>
   </head>
@@ -30,62 +54,59 @@
             class="mx-auto"
           />
           <h1 class="pt-6 pb-2 text-3xl font-bold text-center">
-            Convertisseur HTML - JSON
+            HTML - JSON Converter
           </h1>
 
           <section class="text-center mt-4">
-
             <button
               id="clear_value"
-              class="inline-flex items-center rounded border border-transparent bg-gray-400 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-gray-500"
+              class="inline-flex items-center rounded border border-transparent bg-pink-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-pink-700"
             >
-              Effacer
+              DELETE ALL
             </button>
             <button
-            id="send_content"
-            class="inline-flex items-center rounded border border-transparent bg-green-400 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-green-500"
-          >
-            CONVERSION
-          </button>
+              id="send_content"
+              class="inline-flex items-center rounded border border-transparent bg-cyan-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-cyan-700"
+            >
+              CONVERT TO HTML - JSON
+            </button>
             <p id="message" class="mt-2">
-              Insérer votre texte afin de convertir
+              Welcome to the HTML - JSON Converter
             </p>
           </section>
           <section class="base m-2">
             <form method="post">
-              <textarea id="mytextarea">Hello, World!</textarea>
+              <textarea id="mytextarea">Begin to work</textarea>
             </form>
           </section>
           <section class="grid grid-cols-2 mt-2">
             <div class="m-2">
-            <h2 class="inline-flex">HTML CODE</h2>
-            <button
-            id="converter_to_json"
-            class="inline-flex items-center rounded border border-transparent bg-pink-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-pink-700"
-          >
-            Convertir HTML > JSON
-          </button>
+              <h2 class="inline-flex">HTML CODE</h2>
+              <button
+                id="converter_to_json"
+                class="inline-flex items-center rounded border border-transparent bg-pink-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-pink-700"
+              >
+                Convert HTML > JSON
+              </button>
               <textarea
                 id="input"
-                placeholder="Insérer votre code"
+                placeholder="HTML CODE ..."
                 rows="20"
-
                 class="w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               ></textarea>
             </div>
             <div class="m-2">
               <h2 class="inline-flex">JSON CODE</h2>
               <button
-              id="converter_to_html"
-              class="inline-flex items-center rounded border border-transparent bg-cyan-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-cyan-700"
-            >
-              Convertir JSON > HTML
-            </button>
+                id="converter_to_html"
+                class="inline-flex items-center rounded border border-transparent bg-cyan-600 px-4 py-2 text-xs font-medium text-white shadow-sm hover:bg-cyan-700"
+              >
+                Convert JSON > HTML
+              </button>
               <textarea
                 id="output"
-                placeholder="Récupérer la conversion"
+                placeholder="JSON CODE ..."
                 rows="20"
- 
                 class="w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               ></textarea>
             </div>
@@ -94,7 +115,6 @@
       </div>
     </main>
     <script text="javascript">
-
       // VARIABLES
 
       let input = document.getElementById("input").value;
@@ -109,8 +129,7 @@
       // FUNCTIONS
 
       function resetMessage() {
-        document.getElementById("message").innerHTML =
-          "Insérer votre texte afin de convertir";
+        document.getElementById("message").innerHTML = "Begin to convert";
         document.getElementById("message").className = "mt-2";
       }
 
@@ -129,7 +148,7 @@
 
       function isHtml(str) {
         let parser = new DOMParser();
-        let doc = parser.parseFromString(str, 'text/html');
+        let doc = parser.parseFromString(str, "text/html");
         let errorNode = doc.querySelector("parsererror");
         if (errorNode) {
           return false;
@@ -145,8 +164,7 @@
           document.getElementById("input").value !== "" &&
           isHtml(document.getElementById("input").value)
         ) {
-          document.getElementById("message").innerHTML =
-            "Conversion faite en JSON !";
+          document.getElementById("message").innerHTML = "Convert to JSON !";
           document.getElementById("output").value = JSON.stringify(
             document.getElementById("input").value
           )
@@ -155,8 +173,7 @@
           document.getElementById("message").className = msgSuccess;
           const myTimeout = setTimeout(resetMessage, 3000);
         } else {
-          document.getElementById("message").innerHTML =
-            "Veuillez insérer un code HTML valide !";
+          document.getElementById("message").innerHTML = "Invalid HTML code !";
           const myTimeout = setTimeout(resetMessage, 3000);
           document.getElementById("message").className = msgError;
         }
@@ -169,51 +186,59 @@
           document.getElementById("input").value !== "" &&
           isJson(document.getElementById("input").value)
         ) {
-          document.getElementById("message").innerHTML =
-            "Conversion faite en HTML !";
+          document.getElementById("message").innerHTML = "Convert to HTML !";
           document.getElementById("output").value = JSON.parse(
             document.getElementById("input").value
           );
           document.getElementById("message").className = msgSuccess;
           const myTimeout = setTimeout(resetMessage, 3000);
         } else {
-          document.getElementById("message").innerHTML =
-            "Veuillez insérer un code JSON valide !";
+          document.getElementById("message").innerHTML = "Invalid JSON code !";
           const myTimeout = setTimeout(resetMessage, 3000);
           document.getElementById("message").className = msgError;
         }
       }
 
       function contentSenderToInput() {
-        document.getElementById("input").value = tinymce.get("mytextarea").getContent();
+        document.getElementById("input").value = tinymce
+          .get("mytextarea")
+          .getContent();
       }
 
       async function fullConversion() {
         let result = await contentSenderToInput();
-        converterToJson()
+        converterToJson();
       }
 
       // EVENTS
 
-      sendContentBtn.addEventListener("click", function() {
-        fullConversion()
+      sendContentBtn.addEventListener("click", function () {
+        fullConversion();
       });
 
       converterToJsonBtn.addEventListener("click", function () {
-        converterToJson()
+        converterToJson();
       });
 
       converterToHtmlBtn.addEventListener("click", function () {
-        converterToHtml()
+        converterToHtml();
       });
 
       clearValueBtn.addEventListener("click", function () {
-        document.getElementById("message").innerHTML =
-          "Insérer votre texte afin de convertir";
+        document.getElementById("message").innerHTML = "All codes deleted";
         document.getElementById("output").value = "";
         document.getElementById("input").value = "";
         const myTimeout = setTimeout(resetMessage, 2000);
+        tinymce.activeEditor.setContent("");
       });
+
+      window.onload = function () {
+        document
+          .querySelector(
+            "body > main > div > div > section.base.m-2 > form > div > div.tox-statusbar > div.tox-statusbar__text-container > span"
+          )
+          .remove();
+      };
     </script>
   </body>
 </html>
